@@ -1,0 +1,35 @@
+---
+# tasks file for pkg-install
+
+- name: ensure nginx is at the latest version
+  apt: name=nginx state=latest
+  become: yes
+- name: start nginx
+  service:
+      name: nginx
+      state: started
+  become: yes
+- name: copy the nginx config file and restart nginx
+  template:
+    src:  web.cfg
+    dest: /etc/nginx/sites-available/web.conf
+  become: yes
+- name: create symlink
+  file:
+    src: /etc/nginx/sites-available/web.conf
+    dest: /etc/nginx/sites-enabled/web.conf
+    state: link
+  become: yes
+- name: copy the content of the web site
+  copy:
+    src: index.html
+    dest: /var/www/html/index.html
+    owner: www-data
+    group: www-data
+    mode: 0644
+  become: yes
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+  become: yes

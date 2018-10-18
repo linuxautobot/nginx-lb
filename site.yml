@@ -1,0 +1,18 @@
+---
+- name: Install Nginx Loadbalance
+  hosts: LB
+  remote_user: ubuntu
+  # remote_user: user
+  # sudo: yes
+
+  roles:
+    - nginx-lb
+    
+- name: Install Nginx Webserver srever
+  hosts: webserver
+  remote_user: ubuntu
+  # sudo: yes
+
+  roles:
+    - nginx-webserver
+
