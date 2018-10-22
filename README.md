@@ -19,3 +19,4 @@ $ ansible-playbook site.yml
    first to install nginx LoadBalancer 
    second to install nginx webserver behind LB with no IG 
    
+- Jenkins CI/CD
