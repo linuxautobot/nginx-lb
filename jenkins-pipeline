@@ -1,0 +1,31 @@
+node {
+stage (‘Prepare environment’) {
+git branch: ‘development’, url: ‘git@github.com:example/myapp.git’
+sh ‘npm install’
+}
+
+dev (‘Code analyse’) {
+sh ‘echo “Run some lints”’
+}
+dev (‘Unit test’) {
+sh ‘echo “Tests will back”’
+}
+dev (‘Build’) {
+sh ‘npm run clean’
+sh ‘npm run build’
+}
+dev (‘Deploy’) {
+sh ‘ssh user@webserver rm -rf /var/www/temp_deploy/dist/’
+sh ‘ssh user@webserver mkdir -p /var/www/temp_deploy’
+sh ‘scp -r dist user@webserver:/var/www/temp_deploy/dist/’
+sh ‘ssh user@webserver “rm -rf /var/www/example.com/dist/ && mv /var/www/temp_deploy/dist/ /var/www/static-site/”’
+
+dev (‘Deploy’) {
+sh ‘ssh user@webserver1 rm -rf /var/www/temp_deploy/dist/’
+sh ‘ssh user@webserver1 mkdir -p /var/www/temp_deploy’
+sh ‘scp -r dist user@sweberver1:/var/www/temp_deploy/dist/’
+sh ‘ssh user@webserver1 “rm -rf /var/www/example.com/dist/ && mv /var/www/temp_deploy/dist/ /var/www/static-site/”’
+
+
+}
+}
